@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wishlist Form</title>
+    <style>
+        body {
+            background-color: rgb(181, 188, 181);
+        }
+        .rounded-button {
+            border-radius: 10px;
+            background-color: #f0f8ff; /* Very light shade of blue */
+            border: 2px solid #00008b; /* Dark blue outline */
+            padding: 5px 10px;
+            color: #00008b; /* Dark blue text color */
+        }
+    </style>
+</head>
+<body>
+    <h1>Wishlist</h1>
+    <p>List what you dream of</p>
+    
+    <form action="/enter-information" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="dreamJob">Dream Job:</label>
+        <input type="text" id="dreamJob" name="dreamJob" required><br><br>
+
+        <label for="dreamPlace">Dream Place:</label>
+        <input type="text" id="dreamPlace" name="dreamPlace" required><br><br>
+
+        <label for="dreamExperience">Dream Experience:</label>
+        <textarea id="dreamExperience" name="dreamExperience"  required></textarea><br><br>
+
+        <input type="submit" class="rounded-button" value="Submit">
+    </form>
+    {% if exists %}
+    <div style="color: darkblue;">
+        <p>Username {{username}} exists.  Following dreams listed below</p>
+        <p>Dream Experience: {{ dreamExperience }}</p>
+        <p>Dream Place: {{ dreamPlace }}</p>
+        <p>Dream Job: {{ dreamJob }}</p>
+    </div>
+    {% endif %}
+
+    {% if created %}
+    <div style="color: darkblue;">
+        <p>Username {{username}} has the following:</p>
+        <p>Dream Experience: {{ dreamExperience }}</p>
+        <p>Dream Place: {{ dreamPlace }}</p>
+        <p>Dream Job: {{ dreamJob }}</p>
+    </div>
+    {% endif %}
+
+    {% if msg %}
+    <div style="color: brown;">
+        <p>{{ msg }}</p>
+    </div>
+    {% endif %}
+    <form action="/usernames" method="get">
+        <input type="hidden" name="listing" value="true">
+        <input type="submit" class="rounded-button" value="List All Usernames">
+    </form>
+    {% if listing %}
+    <div>
+        <h2>All Usernames:</h2>
+        <ul>
+            {% for u in usernames %}
+            <li>{{ u }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <form action="/username" method="post">
+        <label for="search-username">Search Username:</label>
+        <input type="text" id="search-username" name="username" required>
+        <input type="submit" class="rounded-button" value="Submit">
+    </form>
+    <!-- Component to display user information -->
+    {% if userRet %}
+    <div style="color: green;">
+        <h2>{{ username }}</h2>
+        <p>Username exists</p>
+        <p>Dream Job: {{ dreamJob }}</p>
+        <p>Dream Place: {{ dreamPlace }}</p>
+        <p>Dream Experience: {{ dreamExperience }}</p>
+        <p>{{ msg2 }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Component to display invisible message -->
+    {% if invisible %}
+    <div style="color: red;">
+        <p>{{ msg2 }}</p>
+    </div>
+    {% endif %}
+</body>
+</html>
